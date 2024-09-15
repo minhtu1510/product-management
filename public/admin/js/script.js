@@ -22,3 +22,21 @@ if (boxFilter) {
 }
 
 //Hết bộ lọc
+
+//Tìm kiếm
+const formsearch = document.querySelector("[form-search]")
+if(formsearch){
+  let url = new URL(location.href)
+  formsearch.addEventListener("submit",(event) => {
+    event.preventDefault();//Ngăn chặn hành vi mặc định :submit form
+    const value = formsearch.keyword.value;
+    if(value){
+      url.searchParams.set("keyword",value)
+    }
+    else{
+      url.searchParams.delete("keyword")
+    }
+    location.href = url.href
+  })
+}
+//Hết tìm kiếm

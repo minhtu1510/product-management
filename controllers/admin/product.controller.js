@@ -4,10 +4,19 @@ module.exports.index = async (req, res) => {
   const find = {
     deleted: false,
   };
-
+  //Lọc theo trạng thái
   if (req.query.status) {
     find.status = req.query.status;
   }
+  //Hết Lọc theo trạng thái
+
+  //Tìm kiêm
+  if (req.query.keyword) {
+    const regex = new RegExp(req.query.keyword, "i");
+    find.title = regex;
+  }
+
+  //Hết tìm kiếm
 
   const products = await Product.find(find);
 
