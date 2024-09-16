@@ -40,3 +40,34 @@ if(formsearch){
   })
 }
 //Hết tìm kiếm
+
+//Phân trang
+const listButtonPagination = document.querySelectorAll("[button-pagination]")
+if(listButtonPagination.length>0){
+  let url = new URL(location.href)
+  listButtonPagination.forEach(button => {
+    
+    button.addEventListener("click",() => {
+      const page = button.getAttribute("button-pagination");
+      console.log(page)
+
+      if(page){
+        url.searchParams.set("page",page)
+      }
+      else{
+        url.searchParams.delete("page")
+      }
+
+      location.href = url.href;
+      })
+  })
+  //Hiển thị trang mặc đinh
+  const pageCurrent = url.searchParams.get("page") || 1 
+  const buttonCurrent = document.querySelector(`[button-pagination="${pageCurrent}"]`)
+  console.log(buttonCurrent)
+  if(buttonCurrent){
+    buttonCurrent.parentNode.classList.add("active")
+  }
+
+}
+//Hết phân trang

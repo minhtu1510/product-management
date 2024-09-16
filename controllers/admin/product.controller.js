@@ -18,10 +18,24 @@ module.exports.index = async (req, res) => {
 
   //Hết tìm kiếm
 
-  const products = await Product.find(find);
+  //Phân trang
+  const limitItems = 4;
+  let page = 1;
+  if (req.query.page) {
+    page = parseInt(req.query.page);
+  }
+  const skip = (page - 1) * limitItems;
+
+  const totalProduct = await Product.countDocuments(find);
+  const totalPage = Math.ceil(totalProduct / limitItems);
+  //Hết phân trang
+
+  const products = await Product.find(find).limit(limitItems).skip(skip);
 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
     products: products,
+    totalPage: totalPage,
+    currentPage: page,
   });
 };
