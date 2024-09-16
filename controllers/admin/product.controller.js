@@ -39,3 +39,19 @@ module.exports.index = async (req, res) => {
     currentPage: page,
   });
 };
+
+module.exports.changeStatus = async (req, res) => {
+  console.log(req.body);
+  await Product.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      status: req.body.status,
+    }
+  );
+  res.json({
+    code: "success",
+    message: "Đổi trạng thái thành công!",
+  });
+};
