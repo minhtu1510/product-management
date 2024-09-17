@@ -71,3 +71,14 @@ module.exports.changeMulti = async (req, res) => {
     message: "Đổi trạng thái thành công!",
   });
 };
+
+module.exports.delete = async (req, res) => {
+  console.log(req.body);
+  await Product.deleteOne({
+    _id: req.body.id,
+  });
+  res.json({
+    code: "success",
+    message: "Xóa thành công!",
+  });
+};
