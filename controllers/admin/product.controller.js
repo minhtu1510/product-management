@@ -74,9 +74,14 @@ module.exports.changeMulti = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
   console.log(req.body);
-  await Product.deleteOne({
-    _id: req.body.id,
-  });
+  await Product.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      deleted: true,
+    }
+  );
   res.json({
     code: "success",
     message: "Xóa thành công!",

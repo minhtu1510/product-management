@@ -157,20 +157,19 @@ if(listButtonDelete.length>0){
           id:id
         }
   
-        fetch(path,{
-          headers:{
-            "Content-Type": "application/json"
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
           },
-          method:"DELETE",
-          body: JSON.stringify(data)
-      
+          method: "PATCH",
+          body: JSON.stringify(data),
         })
-          .then(res => res.json())
-          .then(data =>{
-            if(data.code == "success"){
-              location.reload()
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.code == "success") {
+              location.reload();
             }
-          })
+          });
 
       }   
      
