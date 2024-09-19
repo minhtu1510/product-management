@@ -113,6 +113,12 @@ if(formChangeMulti){
     event.preventDefault();
     const path =formChangeMulti.getAttribute("data-path")
     const status = formChangeMulti.status.value;
+    if (status == "delete") {
+      const isConfirm = confirm("Bạn có chắc chắn muốn xóa không ???");
+      if (!isConfirm) {
+        return;
+      }
+    }
     const ids = []
     const listInputChangeChecked = document.querySelectorAll("[input-change]:checked")
     listInputChangeChecked.forEach(input => {
