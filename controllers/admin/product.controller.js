@@ -54,9 +54,11 @@ module.exports.changeStatus = async (req, res) => {
       status: req.body.status,
     }
   );
+
+  req.flash("success", "Đổi trạng thái thành công !");
+
   res.json({
     code: "success",
-    message: "Đổi trạng thái thành công!",
   });
 };
 
@@ -73,9 +75,9 @@ module.exports.changeMulti = async (req, res) => {
           status: req.body.status,
         }
       );
+      req.flash("success", "Đổi trạng thái thành công !");
       res.json({
         code: "success",
-        message: "Đổi trạng thái thành công!",
       });
       break;
     case "delete":
@@ -87,9 +89,9 @@ module.exports.changeMulti = async (req, res) => {
           deleted: true,
         }
       );
+      req.flash("success", "Xóa thành công !");
       res.json({
         code: "success",
-        message: "Xóa thành công!",
       });
       break;
     default:
@@ -110,25 +112,9 @@ module.exports.delete = async (req, res) => {
       deleted: true,
     }
   );
+  req.flash("success", "Xóa thành công !");
   res.json({
     code: "success",
-    message: "Xóa thành công!",
-  });
-};
-
-module.exports.changeStatus = async (req, res) => {
-  console.log(req.body);
-  await Product.updateOne(
-    {
-      _id: req.body.id,
-    },
-    {
-      status: req.body.status,
-    }
-  );
-  res.json({
-    code: "success",
-    message: "Đổi trạng thái thành công!",
   });
 };
 
@@ -142,8 +128,9 @@ module.exports.changePosition = async (req, res) => {
       position: req.body.value,
     }
   );
+  req.flash("success", "Đổi vị trí thành công !");
   res.json({
     code: "success",
-    message: "Đổi vị trí thành công!",
   });
 };
+

@@ -1,5 +1,8 @@
 const express= require ("express");
 const bodyParser = require("body-parser");
+const flash = require("express-flash");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
@@ -16,6 +19,11 @@ app.set("view engine", "pug");
 
 app.use(express.static("public"));
 app.use(bodyParser.json());
+
+// Flash
+app.use(cookieParser("DSAFAFD"));
+app.use(session({ cookie: { maxAge: 60000 } }));
+app.use(flash());
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 

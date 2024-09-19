@@ -50,3 +50,13 @@ a{
     border-bottom: 1px solid #515151;
   }
   /* End Sider */
+
+  /* alert-message */
+  .alert-message{
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999
+  }
+  /* End alert-message */
+  
