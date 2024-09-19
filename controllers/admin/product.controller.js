@@ -4,6 +4,7 @@ module.exports.index = async (req, res) => {
   const find = {
     deleted: false,
   };
+
   //Lọc theo trạng thái
   if (req.query.status) {
     find.status = req.query.status;
@@ -30,7 +31,10 @@ module.exports.index = async (req, res) => {
   const totalPage = Math.ceil(totalProduct / limitItems);
   //Hết phân trang
 
-  const products = await Product.find(find).limit(limitItems).skip(skip);
+  const products = await Product.find(find)
+    .limit(limitItems)
+    .skip(skip)
+    .sort({ position: "desc" });
 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
@@ -94,9 +98,6 @@ module.exports.changeMulti = async (req, res) => {
       });
       break;
   }
-  
-  
- 
 };
 
 module.exports.delete = async (req, res) => {
@@ -112,5 +113,37 @@ module.exports.delete = async (req, res) => {
   res.json({
     code: "success",
     message: "Xóa thành công!",
+  });
+};
+
+module.exports.changeStatus = async (req, res) => {
+  console.log(req.body);
+  await Product.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      status: req.body.status,
+    }
+  );
+  res.json({
+    code: "success",
+    message: "Đổi trạng thái thành công!",
+  });
+};
+
+module.exports.changePosition = async (req, res) => {
+  console.log(req.body);
+  await Product.updateOne(
+    {
+      _id: req.body.id,
+    },
+    {
+      position: req.body.value,
+    }
+  );
+  res.json({
+    code: "success",
+    message: "Đổi vị trí thành công!",
   });
 };

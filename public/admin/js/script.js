@@ -185,3 +185,35 @@ if(listButtonDelete.length>0){
 }
 
 //Hết Xóa vĩnh viễn sản phẩm
+// Đổi vị trí
+const listInputPosition= document.querySelectorAll("[input-position]")
+if(listInputPosition.length>0){
+  listInputPosition.forEach(input =>{
+    input.addEventListener("change",() => {
+      const value =parseInt(input.value)
+      const id=input.getAttribute("item-id")
+      const path = input.getAttribute("data-path")
+  
+      const data={
+          id:id,
+          value:value
+        }
+  
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PATCH",
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.code == "success") {
+              location.reload();
+            }
+          });
+
+    })
+  })
+}
+// Hết đổi vị trí
