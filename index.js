@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const methodOverride = require("method-override");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
@@ -29,6 +30,8 @@ app.use(bodyParser.json());
 app.use(cookieParser("DSAFAFD"));
 app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
+
+app.use(methodOverride("_method"));
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
