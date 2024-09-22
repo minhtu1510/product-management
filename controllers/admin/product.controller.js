@@ -155,8 +155,9 @@ module.exports.createPost = async (req, res) => {
     req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
 
-  const newRecord = new Product(req.body);
-  await newRecord.save();
+  res.send("ok");
+  // const newRecord = new Product(req.body);
+  // await newRecord.save();
 
-  res.redirect(`/${prefixAdmin}/products`);
+  // res.redirect(`/${prefixAdmin}/products`);
 };
