@@ -4,6 +4,7 @@ const flash = require("express-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const methodOverride = require("method-override");
+const path = require("path");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT;
@@ -32,6 +33,12 @@ app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 
 app.use(methodOverride("_method"));
+
+/* New Route to the TinyMCE Node module */
+app.use(
+  "/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce"))
+);
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
