@@ -151,11 +151,7 @@ module.exports.createPost = async (req, res) => {
     const countRecord = await Product.countDocuments();
     req.body.position = countRecord + 1;
   }
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-  }
 
-  res.send("ok");
   const newRecord = new Product(req.body);
   await newRecord.save();
 
@@ -183,10 +179,6 @@ module.exports.editPatch = async (req, res) => {
   req.body.stock = parseInt(req.body.stock);
   if (req.body.position) {
     req.body.position = parseInt(req.body.position);
-  }
-
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
   }
 
   await Product.updateOne(
