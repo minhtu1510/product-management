@@ -53,6 +53,7 @@ module.exports.index = async (req, res) => {
     products: products,
     totalPage: totalPage,
     currentPage: page,
+    limitItems: limitItems,
   });
 };
 
