@@ -1,5 +1,6 @@
 const { prefixAdmin } = require("../../config/system");
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
 
 module.exports.index = async (req, res) => {
   const find = {
@@ -148,8 +149,12 @@ module.exports.changePosition = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
+  const listCategory = await ProductCategory.find({
+    deleted: false,
+  });
   res.render("admin/pages/products/create", {
     pageTitle: "Thêm mới sản phẩm",
+    listCategory: listCategory,
   });
 };
 
