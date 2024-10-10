@@ -56,7 +56,7 @@ module.exports.index = async (req, res) => {
       _id: item.createdBy,
       deleted: false,
     });
-
+    //Tạo bởi
     if (infoCreated) {
       item.createdFullName = infoCreated.fullName;
     } else {
@@ -64,6 +64,21 @@ module.exports.index = async (req, res) => {
     }
     if (item.createdAt) {
       item.createdAtFormat = moment(item.createdAt).format(
+        "hh:mm:ss DD/MM/YYYY"
+      );
+    }
+    //Cập nhật bởi
+    const infoUpdated = await Account.findOne({
+      _id: item.updatedBy,
+      deleted: false,
+    });
+    if (infoUpdated) {
+      item.updatedFullName = infoUpdated.fullName;
+    } else {
+      item.updatedFullName = "";
+    }
+    if (item.updatedAt) {
+      item.updatedAtFormat = moment(item.updatedAt).format(
         "hh:mm:ss DD/MM/YYYY"
       );
     }
@@ -86,6 +101,8 @@ module.exports.changeStatus = async (req, res) => {
     },
     {
       status: req.body.status,
+      updatedBy: res.locals.user.id,
+      updatedAt: new Date(),
     }
   );
 
@@ -107,6 +124,8 @@ module.exports.changeMulti = async (req, res) => {
         },
         {
           status: req.body.status,
+          updatedBy: res.locals.user.id,
+          updatedAt: new Date(),
         }
       );
       req.flash("success", "Đổi trạng thái thành công !");
@@ -160,6 +179,8 @@ module.exports.changePosition = async (req, res) => {
     },
     {
       position: req.body.value,
+      updatedBy: res.locals.user.id,
+      updatedAt: new Date(),
     }
   );
   req.flash("success", "Đổi vị trí thành công !");
@@ -223,6 +244,8 @@ module.exports.editPatch = async (req, res) => {
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
+    req.body.updatedBy = res.locals.user.id;
+    req.body.updatedAt = new Date();
     if (req.body.position) {
       req.body.position = parseInt(req.body.position);
     }

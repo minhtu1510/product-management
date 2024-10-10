@@ -21,6 +21,8 @@ const Product = mongoose.model(
     position: Number,
     createdBy: String,
     createdAt: Date,
+    updatedBy: String,
+    updatedAt: Date,
     deleted: {
       type: Boolean,
       default: false,
