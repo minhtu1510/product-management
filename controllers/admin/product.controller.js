@@ -159,25 +159,26 @@ module.exports.create = async (req, res) => {
 };
 
 module.exports.createPost = async (req, res) => {
-  req.body.price = parseInt(req.body.price);
-  req.body.discountPercentage = parseInt(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
-  if (req.body.position) {
-    req.body.position = parseInt(req.body.position);
-  } else {
-    const countRecord = await Product.countDocuments();
-    req.body.position = countRecord + 1;
+  if (res.role.permissions.includes("products_create")) {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    if (req.body.position) {
+      req.body.position = parseInt(req.body.position);
+    } else {
+      const countRecord = await Product.countDocuments();
+      req.body.position = countRecord + 1;
+    }
+
+    const newRecord = new Product(req.body);
+    await newRecord.save();
   }
-
-  const newRecord = new Product(req.body);
-  await newRecord.save();
-
   res.redirect(`/${prefixAdmin}/products`);
 };
 
 module.exports.edit = async (req, res) => {
   console.log(req.params.id);
-  
+
   const listCategory = await ProductCategory.find({
     deleted: false,
   });
@@ -195,23 +196,25 @@ module.exports.edit = async (req, res) => {
 };
 
 module.exports.editPatch = async (req, res) => {
-  const id = req.params.id;
-  req.body.price = parseInt(req.body.price);
-  req.body.discountPercentage = parseInt(req.body.discountPercentage);
-  req.body.stock = parseInt(req.body.stock);
-  if (req.body.position) {
-    req.body.position = parseInt(req.body.position);
+  if (res.role.permissions.includes("products_edit")) {
+    const id = req.params.id;
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    if (req.body.position) {
+      req.body.position = parseInt(req.body.position);
+    }
+
+    await Product.updateOne(
+      {
+        _id: id,
+        deleted: false,
+      },
+      req.body
+    );
+
+    req.flash("success", "Cập nhật thành công !");
   }
-
-  await Product.updateOne(
-    {
-      _id: id,
-      deleted: false,
-    },
-    req.body
-  );
-
-  req.flash("success", "Cập nhật thành công !");
   res.redirect("back");
 };
 
