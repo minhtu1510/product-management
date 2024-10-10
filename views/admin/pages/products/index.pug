@@ -69,6 +69,7 @@ block main
                             th Giá
                             th Vị trí
                             th Trạng thái 
+                            th Tạo bởi
                             th Hành động
                     
                     tbody 
@@ -89,6 +90,7 @@ block main
                                     data-path=`/${prefixAdmin}/products/change-position`)
                                 else 
                                     span #{item.position}
+    
                             td 
                                 if(item.status == "active")
                                     a(href="#" class="badge badge-success" button-change-status="inactive"
@@ -96,6 +98,9 @@ block main
                                 else if(item.status == "inactive")
                                     a(href="#" class="badge badge-danger" button-change-status="active"
                                     item-id=item.id data-path=`/${prefixAdmin}/products/change-status`) Dừng hoạt động
+                            td 
+                                div #{item.createdFullName}
+                                div #{item.createdAtFormat}
                             td 
                                 
                                 a(class="btn btn-info btn-sm" href=`/${prefixAdmin}/products/detail/${item.id}`) Chi tiết 

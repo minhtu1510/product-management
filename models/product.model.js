@@ -19,6 +19,8 @@ const Product = mongoose.model(
     thumbnail: String,
     status: String,
     position: Number,
+    createdBy: String,
+    createdAt: Date,
     deleted: {
       type: Boolean,
       default: false,

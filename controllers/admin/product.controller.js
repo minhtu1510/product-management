@@ -1,6 +1,8 @@
 const { prefixAdmin } = require("../../config/system");
 const Product = require("../../models/product.model");
 const ProductCategory = require("../../models/product-category.model");
+const Account = require("../../models/account.model");
+const moment = require("moment");
 
 module.exports.index = async (req, res) => {
   const find = {
@@ -48,6 +50,24 @@ module.exports.index = async (req, res) => {
     .limit(limitItems)
     .skip(skip)
     .sort(sort);
+
+  for (const item of products) {
+    const infoCreated = await Account.findOne({
+      _id: item.createdBy,
+      deleted: false,
+    });
+
+    if (infoCreated) {
+      item.createdFullName = infoCreated.fullName;
+    } else {
+      item.createdFullName = "";
+    }
+    if (item.createdAt) {
+      item.createdAtFormat = moment(item.createdAt).format(
+        "hh:mm:ss DD/MM/YYYY"
+      );
+    }
+  }
 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
@@ -159,10 +179,12 @@ module.exports.create = async (req, res) => {
 };
 
 module.exports.createPost = async (req, res) => {
-  if (res.role.permissions.includes("products_create")) {
+  if (res.locals.role.permissions.includes("products_create")) {
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
+    req.body.createdBy = res.locals.user.id;
+    req.body.createdAt = new Date();
     if (req.body.position) {
       req.body.position = parseInt(req.body.position);
     } else {
@@ -196,7 +218,7 @@ module.exports.edit = async (req, res) => {
 };
 
 module.exports.editPatch = async (req, res) => {
-  if (res.role.permissions.includes("products_edit")) {
+  if (res.locals.role.permissions.includes("products_edit")) {
     const id = req.params.id;
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
