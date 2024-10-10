@@ -140,6 +140,8 @@ module.exports.changeMulti = async (req, res) => {
         },
         {
           deleted: true,
+          deletedBy: res.locals.user.id,
+          deletedAt: new Date(),
         }
       );
       req.flash("success", "Xóa thành công !");
@@ -163,6 +165,8 @@ module.exports.delete = async (req, res) => {
     },
     {
       deleted: true,
+      deletedBy: res.locals.user.id,
+      deletedAt: new Date(),
     }
   );
   req.flash("success", "Xóa thành công !");

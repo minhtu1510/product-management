@@ -23,6 +23,8 @@ const Product = mongoose.model(
     createdAt: Date,
     updatedBy: String,
     updatedAt: Date,
+    deletedBy: String,
+    deletedAt: Date,
     deleted: {
       type: Boolean,
       default: false,
