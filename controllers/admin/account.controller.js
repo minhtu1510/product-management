@@ -100,3 +100,20 @@ module.exports.changePasswordPatch = async (req, res) => {
 
   res.redirect(`/${prefixAdmin}/accounts`);
 };
+
+module.exports.myProfile = async (req, res) => {
+  const roles = await Role.find({
+    deleted: false,
+  });
+
+  const account = await Account.findOne({
+    _id: req.params.id,
+    deleted: false,
+  });
+
+  res.render("admin/pages/accounts/my-profile", {
+    pageTitle: "Thông tin cá nhân",
+    roles: roles,
+    account: account,
+  });
+};
